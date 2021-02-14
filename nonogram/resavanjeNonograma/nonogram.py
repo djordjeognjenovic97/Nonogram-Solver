@@ -30,6 +30,7 @@ class Nonogram():
             column=[]
             for iii in self.nono:
                 column.append(iii[i])
+            #print(column)
             checkRow=[]
             br=0
             for ii in column:
@@ -38,11 +39,15 @@ class Nonogram():
                 elif br!=0 and ii==0:
                     checkRow.append(br)
                     br=0
+            if br!=0:
+                checkRow.append(br)
+            #print(checkRow)
             if(len(checkRow)>len(self.columns[i])):
                 return True
-            for i in range(len(self.columns[i])):
+            for ii in range(len(self.columns[i])):
                 try:
-                    if checkRow[i]>self.columns[i]:
+                    #print(checkRow[ii],self.columns[i][ii])
+                    if checkRow[ii]>self.columns[i][ii]:
                         return True
                 except:
                     pass
@@ -113,6 +118,9 @@ if __name__ == '__main__':
     nono =Nonogram(rows,columns)
     print(nono.nono)
     nono.nono=[[1, 0, 0, 1, 1], [1, 0, 1, 1, 1], [0, 0, 1, 1, 1], [0, 1, 1, 0, 0], [0, 1, 0, 0, 0]]
-    print(nono.rowPermutations([1,3],5))
+              #[[1, 0, 0, 1, 1], [1, 0, 1, 1, 1], [0, 0, 1, 1, 1], [0, 1, 1, 0, 0], [0, 1, 0, 0, 0]]
+    #nono.nono=[[0, 1, 0, 1, 1], [1, 0, 1, 1, 1], [0, 0, 1, 1, 1], [0, 0, 1, 1, 0], [0, 0, 1, 0, 0]]
+    #print(nono.rowPermutations([1,2],5))
+    print("zasto")
     print(nono.isBroken())
     print(nono.isSolved())

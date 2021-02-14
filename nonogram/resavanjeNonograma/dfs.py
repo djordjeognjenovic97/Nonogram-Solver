@@ -1,4 +1,5 @@
 from nonogram import Nonogram
+import copy
 class Stack:
     "A container with a last-in-first-out (LIFO) queuing policy."
     def __init__(self):
@@ -18,17 +19,14 @@ class Stack:
 def depthFirstSearch(nono):
     struktura=Stack() #lifo za dfs
     prosao=[]
-    #rjesenje=nono.nono
-    #pocetak=nono.nono
     prolazi = []
-    struktura.push(prolazi)
+    struktura.push([])
+    prazanNono=nono.nono
     while struktura.isEmpty()==False:
-        #izaberi list za ekspanziju na osnovu strategije
-        prolazi=struktura.pop()
-        print("ss")
-        print(prolazi)
+        prolazi=copy.deepcopy(struktura.pop())
         # if da li je to rjesenje? ako jeste vrati ga
         if len(prolazi)==len(nono.nono):
+            nono.nono=prazanNono
             for i in range(len(prolazi)):
                 djeca = nono.rowPermutations(nono.rows[i], len(nono.nono[0]))
                 for dijetee in djeca:
@@ -46,25 +44,21 @@ def depthFirstSearch(nono):
                     if prolazi==korak:
                         nasao=True
                         break
-                #print(prolazi)
-                #print(dijete[list(dijete.keys())[0]])
                 if nasao==False:
                     listica=[]
                     for i in prolazi:
                         listica.append(i)
-                    prosao.append(listica)
+                    prosao.append(copy.deepcopy(listica))
+                    nono.nono=prazanNono
                     for i in range(len(prolazi)):
                         djetasce = nono.rowPermutations(nono.rows[i], len(nono.nono[0]))
                         for dijetee in djetasce:
                             if(list(dijetee.keys())[0]==prolazi[i]):
                                 nono.nono[i] = dijetee[prolazi[i]]
-
-
-
-                    #print (nono.nono)
-                    if not(nono.isBroken()):
-                        struktura.push(listica)
+                    #if not(nono.isBroken()):
+                    struktura.push(copy.deepcopy(listica))
                 prolazi.pop()
+    print(prosao)
     return nono
 if __name__ == '__main__':
     rows = [[1, 2], [1, 3], [3], [2], [1]]
